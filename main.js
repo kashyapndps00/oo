@@ -84,7 +84,8 @@ mongo.connect(mongo_url, { useUnifiedTopology: true } , (err,client) =>{
 //Just Main Menu Keyboard
 let mainkey = [
     ['💰 Account','👫 Invite'],
-    ['🗂️ Wallet','💵 Withdraw','📊 Statistics']
+    ['📊 Statistics'],
+    ['🗂️ Wallet','💵 Withdraw']
 ]
 
 const botstart = async (ctx) =>{
