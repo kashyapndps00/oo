@@ -6,7 +6,7 @@ const rateLimit = require('telegraf-ratelimit');
 const mongo = require('mongodb').MongoClient;
 const axios = require('axios')
 const { token , admins , curr} = require('./details')
-const mongo_url = "mongodb+srv://Shiba786:Iamzaker786@cluster0.z5yy6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const mongo_url = "mongodb+srv://Kashyap:abcd@cluster0.rxolj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 const bot = new Telegraf(token);
 
 //Scenes Register 
@@ -347,7 +347,7 @@ bot.hears('📊 Statistics',async (ctx) =>{
             var final = payout[0].value
         }
         //
-        let text = "*📊Bot Live Status Here\n\n📤 Total Payouts: "+final.toFixed(3)+" "+curr+"\n\n🙇 Total Users: "+users.length+" Users\n\n✅ Made By* [Your name](https://t.me/your_id)"
+        let text = "*📊Bot Live Status Here\n\n📤 Total Payouts: "+final.toFixed(3)+" "+curr+"\n\n🙇 Total Users: "+users.length+" Users\n\n✅ Made By* [Kashyap](https://t.me/KashyapBoy_xD)"
         ctx.replyWithMarkdown(text)
     }catch(e){
         senderr(e)
