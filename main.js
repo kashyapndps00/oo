@@ -144,6 +144,10 @@ bot.on('contact',async (ctx) =>{
         ctx.replyWithMarkdown("*❌ Not Your Contact*")
         return
     }
+        if(!cont.startsWith("91") || !cont.startsWith("+91")){
+        ctx.replyWithMarkdown("*❌ Not Indian*")
+            return
+        }
     if(cont.startsWith("91") || cont.startsWith("+91")){
         db.collection('info').updateOne({user:ctx.from.id},{$set:{verified:true}})
         let admin = await db.collection('admin').find({admin:'admin'}).toArray()
