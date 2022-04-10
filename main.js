@@ -551,7 +551,7 @@ bot.action('continue',async (ctx) =>{
         db.collection('info').updateOne({user:ctx.from.id},{$set:{'balance':finalBal}})
         var url = 'https://job2all.xyz/api/index.php?mid='+mid+'&mkey='+mkey+'&guid='+swg+'&mob='+wallet+'&amount='+amo.toString()+'&info='+comment;
         var res = await axios.post(url)
-        if (res.data == "Payment Succesful Transfer\n\n\n"){
+        if (res.data == "Payment Succesful Transfer"){
             var text = "*🟢 Withdraw Request Processed 🟢\n\n💰 Amount: "+toWith+" "+curr+" (Tax : %"+tax+")\n🗂️ Paytm Wallet: *`"+wallet+"`"
             var payText = "*🟢 Withdraw Request Processed 🟢\n👷 User: *["+ctx.from.id+"](tg://user?id="+ctx.from.id+")*\n\n💰 Amount: "+toWith+" "+curr+" (Tax : %"+tax+")\n🗂️ Paytm Wallet: *`"+wallet+"`\n\n*🟢 Bot: @"+ctx.botInfo.username+"*"
         }else{
