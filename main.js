@@ -84,8 +84,7 @@ mongo.connect(mongo_url, { useUnifiedTopology: true } , (err,client) =>{
 //Just Main Menu Keyboard
 let mainkey = [
     ['💰 Account','👫 Invite'],
-    ['📊 Statistics'],
-    ['🗂️ Wallet','💵 Withdraw']
+    ['🗂️ Wallet','💵 Withdraw','📊 Statistics']
 ]
 
 const botstart = async (ctx) =>{
@@ -118,7 +117,7 @@ const botstart = async (ctx) =>{
                 db.collection('refer').insertOne({user:ctx.from.id,'invited':"None",'kid':true})
             }
         }
-        let text = "*🚧Share Your Contact Number To Verify Yourself\n\n*_⚠️We Will Not Share Your Personal Information To Someone_"
+        let text = "*🚧Share Your Contact Number To Verify Yourself\n\n*_Note - ⚠️We Will Never Share Your Personal Information To Someone_"
         bot.telegram.sendMessage(ctx.from.id,text,{parse_mode:'Markdown',reply_markup:{keyboard:[[{text:"📤 Send Contact",request_contact:true}]],resize_keyboard: true}})
     }catch(e){
         console.log(e)
@@ -347,7 +346,7 @@ bot.hears('📊 Statistics',async (ctx) =>{
             var final = payout[0].value
         }
         //
-        let text = "*📊Bot Live Status Here\n\n📤 Total Payouts: "+final.toFixed(3)+" "+curr+"\n\n🙇 Total Users: "+users.length+" Users\n\n✅ Made By* [Your name](https://t.me/your_id)"
+        let text = "*📊Bot Live Status Here\n\n📤 Total Payouts: "+final.toFixed(3)+" "+curr+"\n\n🙇 Total Users: "+users.length+" Users\n\n✅ Made By* [Kashyap](https://t.me/KashyapBoy_XD)"
         ctx.replyWithMarkdown(text)
     }catch(e){
         senderr(e)
