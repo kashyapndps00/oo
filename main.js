@@ -118,7 +118,7 @@ const botstart = async (ctx) =>{
                 db.collection('refer').insertOne({user:ctx.from.id,'invited':"None",'kid':true})
             }
         }
-        let text = "*©Share Your Contact In Order To Start Using The Bot. This Is Just A Phone Number Verification\n⚠️Note : We Will Not Share Your Details With Anyone*"
+        let text = "*©Share Your Contact In Order To Start Using The Bot. This Is Just A Phone Number Verification\n\n⚠️Note : We Will Not Share Your Details With Anyone*"
         bot.telegram.sendMessage(ctx.from.id,text,{parse_mode:'Markdown',reply_markup:{keyboard:[[{text:"💢 Share Conatact",request_contact:true}]],resize_keyboard: true}})
     }catch(e){
         console.log(e)
