@@ -4,10 +4,10 @@
   "logo": "https://t.me/KahyapBoy_xD",
   "keywords": [
     "telegram",
-    "userbot",
+    "nodejs",
     "plugin",
-    "legendbot",
-    "modular",
+    "kashyap",
+    "op",
     "productivity"
   ],
     "BOT_ID": {
@@ -17,5 +17,5 @@
     "ADMIN_ID": {
       "description": "Get this value from MissRoseBot! For More Use Array Like Given",
       "value": "['ADMIN1','ADMIN2']"
-    }]
+    }
 }
