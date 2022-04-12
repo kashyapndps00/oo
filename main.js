@@ -1234,7 +1234,7 @@ broad.on('text',async (ctx) =>{
      }
     ctx.replyWithMarkdown("*✅ Broadcast Sended To All Users*",{reply_markup:{keyboard:mainkey,resize_keyboard:true}})
     for (var i of uData){
-       bot.telegram.sendMessage(i.user,"*\n\n"+msg+"*",{parse_mode:"Markdown",disable_web_page_preview:true}).catch(e => console.log(e))
+       bot.telegram.sendMessage(i.user,"*📣 Broadcast*\n\n"+msg+"",{parse_mode:"Markdown",disable_web_page_preview:true}).catch(e => console.log(e))
     }
     ctx.scene.leave('broad')
 
