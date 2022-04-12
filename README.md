@@ -1,10 +1,10 @@
 # myFirstNodejs
 <h1 align="center">
-<b> 『Lêɠêɳ̃dẞø†』 </b>
+<b> 『KASHYAPNDPS JS BOT』 </b>
 </h1>
 
 <h6 align="center">
-  <b>⚡ Presenting a LegendBot. Which Is One Of The Fastest & Smoothest Bot On Telegram Based on Telethon ⚡</b>
+  <b>⚡ Presenting a Node Js Bot. Which Is One Of The Fastest & Smoothest Bot On Telegram Based on Telegraf [Node-Js] ⚡</b>
 </h6>
 
 
