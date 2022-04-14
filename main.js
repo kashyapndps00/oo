@@ -828,10 +828,6 @@ rcha.on('text',async (ctx) =>{
         let oldCha = admin[0].channels
         if (ctx.message.text == '🔙 Back') {
             starter(ctx)
-        }else if(ctx.message.text.split('')[0] != '@'){
-            ctx.replyWithMarkdown("*⛔ Channel Username Must Start With @*",{reply_markup:{keyboard:mainkey,resize_keyboard:true}})
-        }else if(!(contains(ctx.message.text,oldCha))){
-            ctx.replyWithMarkdown("*⛔ Channel Not Found In Database*",{reply_markup:{keyboard:mainkey,resize_keyboard:true}})
         }else{
             let newCha = await arrayRemove(oldCha,ctx.message.text)
             db.collection('admin').updateOne({admin:'admin'},{$set:{channels:newCha}})
