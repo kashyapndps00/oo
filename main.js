@@ -278,7 +278,7 @@ bot.hears('💰 Account' , async (ctx) =>{
         }else{
             var wallet = data[0].wallet
         }
-        let text = "*🙌🏻 User = "+ctx.from.first_name+"\n\n💰 Balance = "+bal.toFixed(3)+" "+curr+"\n\n🗂️ Wallet = *`"+wallet+"`\n\n*🪢 Invite To Earn More*"
+        let text = "*🙌🏻 User = "+ctx.from.first_name+"\n\n💰 Balance = "+bal.toFixed(3)+" "+curr+"\n\n*🪢 Invite To Earn More*"
         ctx.replyWithMarkdown(text)
     }catch(e){
         console.log(e)
