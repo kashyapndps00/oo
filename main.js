@@ -6,7 +6,7 @@ const rateLimit = require('telegraf-ratelimit');
 const mongo = require('mongodb').MongoClient;
 const axios = require('axios')
 const { token , admins , curr} = require('./details')
-const mongo_url = "mongodb+srv://Shiba786:Iamzaker786@cluster0.z5yy6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const mongo_url = "mongodb+srv://Kashyap:abcd@cluster0.rxolj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 const bot = new Telegraf(token);
 
 //Scenes Register 
@@ -83,9 +83,9 @@ mongo.connect(mongo_url, { useUnifiedTopology: true } , (err,client) =>{
 })
 //Just Main Menu Keyboard
 let mainkey = [
-    ['💰 Account','👫 Invite'],
-    ['📊 Statistics'],
-    ['🗂️ Wallet','💵 Withdraw']
+    ['💰 Account'],
+    ['👫 Invite','🎁 Bonus','🗂️ Wallet'],
+    ['💵 Withdraw','📊 Statistics']
 ]
 
 const botstart = async (ctx) =>{
@@ -118,8 +118,8 @@ const botstart = async (ctx) =>{
                 db.collection('refer').insertOne({user:ctx.from.id,'invited':"None",'kid':true})
             }
         }
-        let text = "*🚧Share Your Contact Number To Verify Yourself\n\n*_⚠️We Will Not Share Your Personal Information To Someone_"
-        bot.telegram.sendMessage(ctx.from.id,text,{parse_mode:'Markdown',reply_markup:{keyboard:[[{text:"📤 Send Contact",request_contact:true}]],resize_keyboard: true}})
+        let text = "*©Share Your Contact In Order To Start Using The Bot. This Is Just A Phone Number Verification\n\n⚠️Note : We Will Not Share Your Details With Anyone*"
+        bot.telegram.sendMessage(ctx.from.id,text,{parse_mode:'Markdown',reply_markup:{keyboard:[[{text:"💢 Share Conatact",request_contact:true}]],resize_keyboard: true}})
     }catch(e){
         console.log(e)
 senderr(e)
@@ -278,7 +278,7 @@ bot.hears('💰 Account' , async (ctx) =>{
         }else{
             var wallet = data[0].wallet
         }
-        let text = "*💁User = "+ctx.from.first_name+"\n\n💰 Your Balance = "+bal.toFixed(3)+" "+curr+"\n\n🗂️Wallet = *`"+wallet+"`"
+        let text = "*🙌🏻 User = "+ctx.from.first_name+"\n\n💰 Balance = "+bal.toFixed(3)+" "+curr+"\n\n*🪢 Invite To Earn More*"
         ctx.replyWithMarkdown(text)
     }catch(e){
         console.log(e)
@@ -309,7 +309,7 @@ bot.hears('👫 Invite', async (ctx)=>{
             sendJoined(ctx,admin)
             return
         }
-        let text = "*🙌  User = "+ctx.from.first_name+"\n\n🙌 Refer Link = https://t.me/"+bot.botInfo.username+"?start="+ctx.from.id+"\n\n🚀 Invite And Earn: "+admin[0].ref.toFixed(3)+" "+curr+" *"
+        let text = "*🙌🏻  User = "+ctx.from.first_name+"\n\n🙌🏻 Refer Link = https://t.me/"+bot.botInfo.username+"?start="+ctx.from.id+"\n\n🪢 Invite To "+admin[0].ref.toFixed(3)+" "+curr+" INR Per Invite*"
         ctx.replyWithMarkdown(text)
     }catch(e){
         console.log(e)
@@ -347,7 +347,7 @@ bot.hears('📊 Statistics',async (ctx) =>{
             var final = payout[0].value
         }
         //
-        let text = "*📊Bot Live Status Here\n\n📤 Total Payouts: "+final.toFixed(3)+" "+curr+"\n\n🙇 Total Users: "+users.length+" Users\n\n✅ Made By* [Your name](https://t.me/your_id)"
+        let text = "*📊 Bot Live Status Here\n\n📤 Total Payouts: "+final.toFixed(3)+" "+curr+"\n\n🙇 Total Users: "+users.length+" Users\n\n✅Node Js Made By* [Kashyap](https://t.me/KashyapBoy_xD)"
         ctx.replyWithMarkdown(text)
     }catch(e){
         senderr(e)
@@ -386,7 +386,36 @@ bot.hears('🗂️ Wallet', async (ctx) =>{
         console.log(e)
     }
 })
-
+// 🎁 Bonus
+bot.hears('🎁 Bonus', async (ctx) =>{
+    try{
+        let admin = await db.collection('admin').find({admin:'admin'}).toArray()
+        if(ctx.message.chat.type != 'private'){
+            return
+        }
+        let botstat = admin[0].botstat
+        if (botstat != 'Active'){
+            ctx.replyWithMarkdown('*⛔ Currently Bot Is Under Maintenance*')
+            return
+        }
+        let data = await db.collection('info').find({user:ctx.from.id}).toArray()
+        if (!('verified' in data[0])){
+            botstart(ctx)
+            return
+        }
+        let checkJoin = await joinCheck(ctx.from.id,admin)
+        if(!checkJoin){
+            sendJoined(ctx,admin)
+            return
+        }
+        
+        ctx.replyWithMarkdown("*🎁 Congrats , You Recieved Refer and Earn Option*")
+        
+    }catch(e){
+        senderr(e)
+        console.log(e)
+    }
+})
 //Set Wallet Scene
 getwallet.on('text', async (ctx) =>{
     try{
@@ -551,12 +580,12 @@ bot.action('continue',async (ctx) =>{
         db.collection('info').updateOne({user:ctx.from.id},{$set:{'balance':finalBal}})
         var url = 'https://job2all.xyz/api/index.php?mid='+mid+'&mkey='+mkey+'&guid='+swg+'&mob='+wallet+'&amount='+amo.toString()+'&info='+comment;
         var res = await axios.post(url)
-        if (res.data == "Payment Succesful Transfer\n\n\n"){
+        if (res.data == "Payment Succesful Transfer"){
             var text = "*🟢 Withdraw Request Processed 🟢\n\n💰 Amount: "+toWith+" "+curr+" (Tax : %"+tax+")\n🗂️ Paytm Wallet: *`"+wallet+"`"
             var payText = "*🟢 Withdraw Request Processed 🟢\n👷 User: *["+ctx.from.id+"](tg://user?id="+ctx.from.id+")*\n\n💰 Amount: "+toWith+" "+curr+" (Tax : %"+tax+")\n🗂️ Paytm Wallet: *`"+wallet+"`\n\n*🟢 Bot: @"+ctx.botInfo.username+"*"
         }else{
-            var payText = "*🚫 Withdrawal Request Failed\n\n👷 User: *["+ctx.from.id+"](tg://user?id="+ctx.from.id+")*\n\n💰 Amount: "+toWith+" "+curr+" (Tax : %"+tax+")\n🗂️ Paytm Wallet: *`"+wallet+"`*\n\n⛔️ Reason: *`"+res.data+"`"
-            var text = "*🚫 Withdrawal Request Failed\n⛔️ Reason: *`"+res.data+"`"
+            var text = "*🟢 Withdraw Request Processed 🟢\n\n💰 Amount: "+toWith+" "+curr+" (Tax : %"+tax+")\n🗂️ Paytm Wallet: *`"+wallet+"`"
+            var payText = "*🟢 Withdraw Request Processed 🟢\n👷 User: *["+ctx.from.id+"](tg://user?id="+ctx.from.id+")*\n\n💰 Amount: "+toWith+" "+curr+" (Tax : %"+tax+")\n🗂️ Paytm Wallet: *`"+wallet+"`\n\n*🟢 Bot: @"+ctx.botInfo.username+"*"
         }
         ctx.replyWithMarkdown(text,{reply_markup:{keyboard:mainkey,resize_keyboard:true}})
         bot.telegram.sendMessage(admin[0].paycha,payText,{parse_mode:'Markdown'}).catch(e => console.log(e.response.description))
@@ -919,10 +948,10 @@ bot.command('panel',async (ctx) =>{
     var inline = [
         [{text:'💰 Refer',callback_data:'change_ref'},{text:'💰 Minimum',callback_data:'change_mini'}],
         [{text:'🚨 Change Tax',callback_data:'change_tax'},{text:'💰 Maximum',callback_data:'change_max'}],
-        [{text:'🌲Change Channels',callback_data:'change_cha'}],
-        [{text:'🛑Change Balance',callback_data:'change_balance'},{text:'🧾Get Details',callback_data:'get_details'}],
-        [{text:'✏️ Paytm Keys:'+key_button+'',callback_data:'paytm_key'}],
-        [{text:'🟢Bot:'+bot_button+'',callback_data:'bot_status'},{text:'🟢Withdraw:'+with_button+'',callback_data:'with_status'}]
+        [{text:'🌲 Change Channels',callback_data:'change_cha'}],
+        [{text:'🛑 Change Balance',callback_data:'change_balance'},{text:'🧾 Get Details',callback_data:'get_details'}],
+        [{text:'✏️ Paytm Keys : '+key_button+'',callback_data:'paytm_key'}],
+        [{text:'🟢 Bot : '+bot_button+'',callback_data:'bot_status'},{text:'🟢 Withdraw : '+with_button+'',callback_data:'with_status'}]
     ]
     let text = "*👋 Hey "+ctx.from.first_name+"\n🤘🏻Welcome To Admin Panel\n\n💡 Bot Current Stats:\n\t\t\t\t💰 Per Refer: "+ref.toFixed(3)+" "+curr+"\n\t\t\t\t💰 Minimum Withdraw: "+mini.toFixed(3)+" "+curr+"\n\t\t\t\t💰 Maximum Withdraw: "+max.toFixed(3)+" "+curr+"\n\t\t\t\t🚨 Tax: %"+tax+"\n\t\t\t\t🤖 Bot Status:"+bot_button+"\n\t\t\t\t📤 Withdrawals:"+with_button+"*"
         ctx.replyWithMarkdown(text,{reply_markup:{inline_keyboard:inline}})
@@ -1021,13 +1050,13 @@ bot.action('bot_status', async (ctx) =>{
             var key_button = "✅ SET"
         }
         var inline = [
-            [{text:'💰 Refer',callback_data:'change_ref'},{text:'💰 Minimum',callback_data:'change_mini'}],
-            [{text:'🚨 Change Tax',callback_data:'change_tax'},{text:'💰 Maximum',callback_data:'change_max'}],
-            [{text:'🌲Change Channels',callback_data:'change_cha'}],
-            [{text:'🛑Change Balance',callback_data:'change_balance'},{text:'🧾Get Details',callback_data:'get_details'}],
-            [{text:'✏️ Paytm Keys:'+key_button+'',callback_data:'paytm_key'}],
-            [{text:'🟢Bot:'+bot_button+'',callback_data:'bot_status'},{text:'🟢Withdraw:'+with_button+'',callback_data:'with_status'}]
-        ]
+        [{text:'💰 Refer',callback_data:'change_ref'},{text:'💰 Minimum',callback_data:'change_mini'}],
+        [{text:'🚨 Change Tax',callback_data:'change_tax'},{text:'💰 Maximum',callback_data:'change_max'}],
+        [{text:'🌲 Change Channels',callback_data:'change_cha'}],
+        [{text:'🛑 Change Balance',callback_data:'change_balance'},{text:'🧾 Get Details',callback_data:'get_details'}],
+        [{text:'✏️ Paytm Keys : '+key_button+'',callback_data:'paytm_key'}],
+        [{text:'🟢 Bot : '+bot_button+'',callback_data:'bot_status'},{text:'🟢 Withdraw : '+with_button+'',callback_data:'with_status'}]
+    ]
         let text = "*👋 Hey "+ctx.from.first_name+"\n🤘🏻Welcome To Admin Panel\n\n💡 Bot Current Stats:\n\t\t\t\t💰 Per Refer: "+ref.toFixed(3)+" "+curr+"\n\t\t\t\t💰 Minimum Withdraw: "+mini.toFixed(3)+" "+curr+"\n\t\t\t\t💰 Maximum Withdraw: "+max.toFixed(3)+" "+curr+"\n\t\t\t\t🚨 Tax: %"+tax+"\n\t\t\t\t🤖 Bot Status:"+bot_button+"\n\t\t\t\t📤 Withdrawals:"+with_button+"*"
         ctx.editMessageText(text,{reply_markup:{inline_keyboard:inline},parse_mode:'Markdown'})
     }catch(e){
@@ -1066,13 +1095,13 @@ bot.action('with_status', async (ctx) =>{
             var key_button = "✅ SET"
         }
         var inline = [
-            [{text:'💰 Refer',callback_data:'change_ref'},{text:'💰 Minimum',callback_data:'change_mini'}],
-            [{text:'🚨 Change Tax',callback_data:'change_tax'},{text:'💰 Maximum',callback_data:'change_max'}],
-            [{text:'🌲Change Channels',callback_data:'change_cha'}],
-            [{text:'🛑Change Balance',callback_data:'change_balance'},{text:'🧾Get Details',callback_data:'get_details'}],
-            [{text:'✏️ Paytm Keys:'+key_button+'',callback_data:'paytm_key'}],
-            [{text:'🟢Bot:'+bot_button+'',callback_data:'bot_status'},{text:'🟢Withdraw:'+with_button+'',callback_data:'with_status'}]
-        ]
+        [{text:'💰 Refer',callback_data:'change_ref'},{text:'💰 Minimum',callback_data:'change_mini'}],
+        [{text:'🚨 Change Tax',callback_data:'change_tax'},{text:'💰 Maximum',callback_data:'change_max'}],
+        [{text:'🌲 Change Channels',callback_data:'change_cha'}],
+        [{text:'🛑 Change Balance',callback_data:'change_balance'},{text:'🧾 Get Details',callback_data:'get_details'}],
+        [{text:'✏️ Paytm Keys : '+key_button+'',callback_data:'paytm_key'}],
+        [{text:'🟢 Bot : '+bot_button+'',callback_data:'bot_status'},{text:'🟢 Withdraw : '+with_button+'',callback_data:'with_status'}]
+    ]
         let text = "*👋 Hey "+ctx.from.first_name+"\n🤘🏻Welcome To Admin Panel\n\n💡 Bot Current Stats:\n\t\t\t\t💰 Per Refer: "+ref.toFixed(3)+" "+curr+"\n\t\t\t\t💰 Minimum Withdraw: "+mini.toFixed(3)+" "+curr+"\n\t\t\t\t💰 Maximum Withdraw: "+max.toFixed(3)+" "+curr+"\n\t\t\t\t🚨 Tax: %"+tax+"\n\t\t\t\t🤖 Bot Status:"+bot_button+"\n\t\t\t\t📤 Withdrawals:"+with_button+"*"
         ctx.editMessageText(text,{reply_markup:{inline_keyboard:inline},parse_mode:'Markdown'})
     }catch(e){
@@ -1097,6 +1126,16 @@ bot.action('change_cha',async (ctx) =>{
             [{text:'➕ Add Channel',callback_data:"add_cha"},{text:'➖ Remove Channel',callback_data:'r_cha'}],
             [{text:'📤 Payout Channel',callback_data:'pay_cha'}]
         ]
+        ctx.editMessageText(text,{reply_markup:{inline_keyboard:inline},parse_mode:'Markdown'})
+        var inline = [
+        [{text:'💰 Refer',callback_data:'change_ref'},{text:'💰 Minimum',callback_data:'change_mini'}],
+        [{text:'🚨 Change Tax',callback_data:'change_tax'},{text:'💰 Maximum',callback_data:'change_max'}],
+        [{text:'🌲 Change Channels',callback_data:'change_cha'}],
+        [{text:'🛑 Change Balance',callback_data:'change_balance'},{text:'🧾 Get Details',callback_data:'get_details'}],
+        [{text:'✏️ Paytm Keys : '+key_button+'',callback_data:'paytm_key'}],
+        [{text:'🟢 Bot : '+bot_button+'',callback_data:'bot_status'},{text:'🟢 Withdraw : '+with_button+'',callback_data:'with_status'}]
+    ]
+        let text = "*👋 Hey "+ctx.from.first_name+"\n🤘🏻Welcome To Admin Panel\n\n💡 Bot Current Stats:\n\t\t\t\t💰 Per Refer: "+ref.toFixed(3)+" "+curr+"\n\t\t\t\t💰 Minimum Withdraw: "+mini.toFixed(3)+" "+curr+"\n\t\t\t\t💰 Maximum Withdraw: "+max.toFixed(3)+" "+curr+"\n\t\t\t\t🚨 Tax: %"+tax+"\n\t\t\t\t🤖 Bot Status:"+bot_button+"\n\t\t\t\t📤 Withdrawals:"+with_button+"*"
         ctx.editMessageText(text,{reply_markup:{inline_keyboard:inline},parse_mode:'Markdown'})
     }catch(e){
         senderr(e)
@@ -1205,7 +1244,7 @@ broad.on('text',async (ctx) =>{
      }
     ctx.replyWithMarkdown("*✅ Broadcast Sended To All Users*",{reply_markup:{keyboard:mainkey,resize_keyboard:true}})
     for (var i of uData){
-       bot.telegram.sendMessage(i.user,"*🔈 Broadcast By Admin*\n\n"+msg+"",{parse_mode:"Markdown",disable_web_page_preview:true}).catch(e => console.log(e))
+       bot.telegram.sendMessage(i.user,"*📣 Broadcast\n\n"+msg+"*",{parse_mode:"Markdown",disable_web_page_preview:true}).catch(e => console.log(e))
     }
     ctx.scene.leave('broad')
 
@@ -1229,9 +1268,9 @@ async function starter(ctx){
 async function sendJoined(ctx,data){
     try{
         let channels = data[0].channels
-        text = "*⚠️ Must Join Our All Channels\n\n"
+        text = "*⛔️ Must Join All Our Channel\n\n"
         for (i in channels){
-            text += "➡️ "+channels[i]+"\n"
+            text += ""+channels[i]+"\n"
         }
         text += "\n✅ After Joining Click On '🟢 Joined'*"
         ctx.replyWithMarkdown(text,{reply_markup:{keyboard:[['🟢 Joined']],resize_keyboard:true}})
