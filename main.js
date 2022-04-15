@@ -170,6 +170,10 @@ bot.on('contact',async (ctx) =>{
                 ctx.replyWithMarkdown("*🚸 Wrong Refer Link *")
                 return
             }
+            else {
+                ctx.replyWithMarkdown("*❌ Only Indians Are Allowed To Use This Bot*")
+                return
+            }
             if (!('balance' in rData[0])){
                 var bal = 0;
             }else{
@@ -485,6 +489,15 @@ bot.hears('💵 Withdraw',async (ctx) =>{
         ctx.replyWithMarkdown('*⛔️ Paytm Number Not Set*')
         return
     }
+    let data = await db.collection('info').find({user:ctx.from.id}).toArray()
+
+        if (!('verified' in data[0])){
+
+            botstart(ctx)
+
+            return
+
+        }
     ctx.replyWithMarkdown("*💡 Send Amount To Withdraw*",{reply_markup:{keyboard:[
         ['🔙 Back']
     ],resize_keyboard:true}})
