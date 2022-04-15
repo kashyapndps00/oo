@@ -278,7 +278,7 @@ bot.hears('💰 Account' , async (ctx) =>{
         }else{
             var wallet = data[0].wallet
         }
-        let text = "*🙌🏻 User = "+ctx.from.first_name+"\n\n💰 Balance = "+bal.toFixed(3)+" "+curr+"\n\n*🪢 Invite To Earn More*"
+        let text = "*🙌🏻 User = "+ctx.from.first_name+"\n\n💰 Balance = "+bal.toFixed(3)+" "+curr+"\n\n🗂️ Wallet = *`"+wallet+"`\n\n*🪢 Invite To Earn More*"
         ctx.replyWithMarkdown(text)
     }catch(e){
         console.log(e)
@@ -347,7 +347,7 @@ bot.hears('📊 Statistics',async (ctx) =>{
             var final = payout[0].value
         }
         //
-        let text = "*📊 Bot Live Status Here\n\n📤 Total Payouts: "+final.toFixed(3)+" "+curr+"\n\n🙇 Total Users: "+users.length+" Users\n\n✅Node Js Made By* [Kashyap](https://t.me/KashyapBoy_xD)"
+        let text = "*📊Bot Live Status Here\n\n📤 Total Payouts: "+final.toFixed(3)+" "+curr+"\n\n🙇 Total Users: "+users.length+" Users\n\n✅ Made By* [Kashyap](https://t.me/KashyapBoy_xD)"
         ctx.replyWithMarkdown(text)
     }catch(e){
         senderr(e)
@@ -1126,16 +1126,6 @@ bot.action('change_cha',async (ctx) =>{
             [{text:'➕ Add Channel',callback_data:"add_cha"},{text:'➖ Remove Channel',callback_data:'r_cha'}],
             [{text:'📤 Payout Channel',callback_data:'pay_cha'}]
         ]
-        ctx.editMessageText(text,{reply_markup:{inline_keyboard:inline},parse_mode:'Markdown'})
-        var inline = [
-        [{text:'💰 Refer',callback_data:'change_ref'},{text:'💰 Minimum',callback_data:'change_mini'}],
-        [{text:'🚨 Change Tax',callback_data:'change_tax'},{text:'💰 Maximum',callback_data:'change_max'}],
-        [{text:'🌲 Change Channels',callback_data:'change_cha'}],
-        [{text:'🛑 Change Balance',callback_data:'change_balance'},{text:'🧾 Get Details',callback_data:'get_details'}],
-        [{text:'✏️ Paytm Keys : '+key_button+'',callback_data:'paytm_key'}],
-        [{text:'🟢 Bot : '+bot_button+'',callback_data:'bot_status'},{text:'🟢 Withdraw : '+with_button+'',callback_data:'with_status'}]
-    ]
-        let text = "*👋 Hey "+ctx.from.first_name+"\n🤘🏻Welcome To Admin Panel\n\n💡 Bot Current Stats:\n\t\t\t\t💰 Per Refer: "+ref.toFixed(3)+" "+curr+"\n\t\t\t\t💰 Minimum Withdraw: "+mini.toFixed(3)+" "+curr+"\n\t\t\t\t💰 Maximum Withdraw: "+max.toFixed(3)+" "+curr+"\n\t\t\t\t🚨 Tax: %"+tax+"\n\t\t\t\t🤖 Bot Status:"+bot_button+"\n\t\t\t\t📤 Withdrawals:"+with_button+"*"
         ctx.editMessageText(text,{reply_markup:{inline_keyboard:inline},parse_mode:'Markdown'})
     }catch(e){
         senderr(e)
