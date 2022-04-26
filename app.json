@@ -1,0 +1,17 @@
+{
+  "name": "Node Js Bot†",
+  "description": "Tнє ßєѕτ BOT мα∂є ϐγ KASHYAP. Made with Love And By NODE Js Language With Hardwork... ❤ ",
+  "keywords": [
+    "telegram",
+    "userbot",
+    "plugin",
+    "Bot",
+    "modular",
+    "productivity"
+  ],
+"env": {
+    "ENV": {
+      "description": "Set this to ANYTHING will enable heroku.",
+      "value": "ANYTHING"
+    }
+}
