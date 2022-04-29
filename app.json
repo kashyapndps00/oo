@@ -1,5 +1,5 @@
 {
-  "name": "Node Js Bot†",
+  "name": "Node Js Bo†",
   "description": "Tнє ßєѕτ BOT мα∂є ϐγ KASHYAP. Made with Love And By NODE Js Language With Hardwork... ❤ ",
   "keywords": [
     "telegram",
@@ -8,17 +8,5 @@
     "Bot",
     "modular",
     "productivity"
-  ],
-"env": {
-    "ENV": {
-      "description": "Set this to ANYTHING will enable heroku.",
-      "value": "ANYTHING"
-    }
-  },
-  "addons": [{
-    "plan": "heroku-postgresql",
-    "options": {
-      "version": "12"
-    }
-  }]
+  ]
 }
